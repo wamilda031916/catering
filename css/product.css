@@ -1,6 +1,8 @@
 body
 {
  	background-color: #fff2e5;
+	margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body marquee
@@ -14,37 +16,64 @@ h1
 	color: #0600ff;
 }
 
-h3
+h2
 {
-	color: #7c0000;
+	color: #2f08fbf5;
 }
-ul {
-  list-style-type: none;
-  margin: 0;
+.navbar {
+  background-color: #333;
   overflow: hidden;
-  border: 1px solid #e7e7e7;
-  background-color: #14dedc;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
-li {
+
+.navbar a {
   float: left;
-}
-
-li a {
   display: block;
-  color: #d22424;
+  color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 16px 16px;
   text-decoration: none;
+  font-size: 20px;
 }
 
-li a:hover:not(.active) {
-  background-color: white;
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
 }
 
-li a.active {
-  color: white;
+.navbar a.active {
   background-color: #4CAF50;
+  color: white;
+}
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+@media screen and (max-width: 500px) {
+  .column {
+    width: 100%;
+  }
+.header {
+	width: 30%;
+	margin: 55px auto 0px;
+	color: white;
+	background:#333;
+	text-align: center;
+	border: 1px solid #B0C4DE;
+	border-bottom: none;
+	border-radius: 15px 15px 15px 15px;
+	padding: 50px;
 }

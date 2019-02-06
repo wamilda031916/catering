@@ -47,7 +47,7 @@
     }else{
 ?>
 <div class="header">
-<center><h1>Customer Table</h1></center>
+<center><h1>Customer Record</h1></center>
 <form name="registration" action="" method="post">
 <input type="text" name="customer_id" placeholder="customer_id" required />
 <input type="text" name="firstname" placeholder="firstname" required />

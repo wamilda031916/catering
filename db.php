@@ -1,6 +1,6 @@
 <?php
 
-$con = mysqli_connect("localhost","root","","aj's catering");
+$con = mysqli_connect("localhost","root","","AJ's catering");
 
 if (mysqli_connect_errno())
   {

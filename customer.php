@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>AJ's Catering</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-4.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/view.css">
+	
 	<!-- Script -->
 	<script src="bootstrap/js/jquery.js"></script>
 	<script src="bootstrap/js/popper.js"></script>
@@ -23,7 +24,6 @@
 <thead>
 <tr><th><strong>Customer Id</strong></th><th><strong>Firstname</strong></th><th><strong>Mi</strong></th><th><strong>Lastname</strong></th><th><strong>Customer Street</strong></th><th><strong>Customer Barangay</strong></th><th><strong>City</strong></th><th><strong>Contact Number</strong></th><th><strong>Edit</strong></th><th><strong>Delete</strong></th></tr>
 </thead>
-
 
 
 
@@ -55,4 +55,3 @@ mysqli_close($link);
 </div>
 </body>
 </html>
-

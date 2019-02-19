@@ -11,19 +11,35 @@
 	<script src="bootstrap/js/popper.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
   </head>
+  <style>
+  body{
+	background-image: url(images/table2.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 100%;
+	}
+	.table{
+  background-color: green;
+}
+</style>
 <body>
-<div class="container">
+<div class="blueTable">
 	<div class="col-md-1 col-sm-1"></div>
 			
 	<div class="well well-lg col-md-10 col-sm-10" id="box1">
 		<div class="row">
 			<div class="col-md-1 col-sm-1">
-			  	<form action="create_customer.html">
+			  	<form action="create_product.html">
 					<center><h1>View Customers</h1></center>
-<table width="99%" border="1" style="border-collapse:collapse;">
+<table width="99%" border="5">
 <thead>
 <tr><th><strong>Customer Id</strong></th><th><strong>Firstname</strong></th><th><strong>Mi</strong></th><th><strong>Lastname</strong></th><th><strong>Customer Street</strong></th><th><strong>Customer Barangay</strong></th><th><strong>City</strong></th><th><strong>Contact Number</strong></th><th><strong>Edit</strong></th><th><strong>Delete</strong></th></tr>
 </thead>
+<button class="block">Add Product</button>
+
+	<!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
 

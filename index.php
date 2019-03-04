@@ -1,92 +1,101 @@
- <!DOCTYPE html>
-<html>
+<?php
+include("connect.php");
+session_start();
+?>
+<!DOCTYPE html>
+
+
 <head>
-	<title></title>
+	<title>index</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" type="image/x-icon" href="picture/attendance.jpg" />
+
+	
+	
+	<link href="bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	
+    <link href="css/phonebook.css" rel="stylesheet">
+	<script src="bootstrap-3.3.7/js/jquery.min.js"></script>
+	<script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/phonebook.js"></script>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
+<style>
+  body{
+	background-image: url(images/table1.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 99%;
+	}
+	.navbar-green{
+	background-color: #0e0e0ee3;
+}
+</style>
+
 <body>
-	<br>
-	<center>
-	<div>
-		<form action="create_customer.html">
-			<button type="submit">Add New Customer</button>
-		</form>
-		<table>
-			<tr>
-				<th>Customer ID</th>
-				<th>Firstname</th>
-				<th>Mi</th>
-				<th>Lastname</th>
-				<th>Customer Street</th>
-				<th>Customer Barangay</th>
-				<th>City</th>
-				<th>Contact Number</th>
-				<th>Edit</th>
-				<th>Delete</th>
-			</tr>
-			<tr>
-			<?php
 
-			include "connect.php";
-			$sql = "SELECT * FROM customer";
-			$res = mysqli_query($link, $sql);
-			while($line = mysqli_fetch_array($res)) {
-				$customer_id = $line['customer_id'];
-				echo "<tr>";
-				echo "<td><center>" .$customer_id ."</center></td>";
-				echo "<td><center>" . $line['firstname'] . "</center></td>";
-				echo "<td><center>" .$line ['mi'] ."</center></td>";
-				echo "<td><center>" . $line['lastname'] . "</center></td>";
-				echo "<td><center>" .$line['customer_street'] ."</center></td>";
-				echo "<td><center>" . $line['customer_barangay'] . "</center></td>";
-				echo "<td><center>" .$line['city'] ."</center></td>";
-				echo "<td><center>" . $line['contact_num'] . "</center></td>";
-				echo '<td><a href="edit_customer.php?id='.$customer_id.'" title="Update Section">Edit</center></a></td>';
-				echo '<td><a href="delete_customer.php?id='.$customer_id.'" title="Remove Section">Delete</center></a></td>';  
-				echo "</tr>";
-			}
-			mysqli_close($link);
-			?>	
-			</tr>
-		</table>
-	</div>
-	<br>
-	<br>
-	<div>
-		<form action="create_product.php">
-			<button type="submit">Add New Poduct</button>
-		</form>
-		<table>
-			<tr>
-				<th>Product Code</th>
-				<th>Description</th>
-				<th>Price</th>
-				<th>Unit</th>
-				<th>Edit</th>
-				<th>Delete</th>
-			</tr>
-			<tr>
-			<?php
+    <div id="wrapper">
+		
+       <!-- Sidebar -->
+				<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li class="sidebar-brand">
+					<img src="img/attendance.png" />
+				</li>
+				<br>
+				<li>
+					<a href="create_salesinvoice.php" title="Home"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</a>
+				</li>
+				<li>
+					<a href="customer.php" title="Customer"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer</a>
+				</li>
+				<li>
+					<a href="product.php" title="Product"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product</a>
+				</li>
+				<li>
+					<a href="sales_invoice.php" title="Sales Invoice"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sales Invoice</a>
+				</li>
+				<li>
+					<a href="about.html" title="About"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About</a>
+				</li>
+				<li>
+					<a href="logout.php" title="Logout"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+				</li>
+				
+			</ul>
+		</div>
 
-			include "connect.php";
-			$sql = "SELECT * FROM product";
-			$res = mysqli_query($link, $sql);
-			while($line = mysqli_fetch_array($res)) {
-				$product_code = $line['product_code'];
-				echo "<tr>";
-				echo "<td><center>" .$product_code ."</center></td>";
-				echo "<td><center>" . $line['description'] . "</center></td>";
-				echo "<td><center>" .$line['price'] ."</center></td>";
-				echo "<td><center>" .$line['unit'] ."</center></td>";
-				echo '<td><a href="edit_product.php?id='.$product_code.'" title="Update Student">Edit</center></a></td>';
-				echo '<td><a href="delete_product.php?id='.$product_code.'" title="Remove Student">Delete</center></a></td>';  
-				echo "</tr>";
-			}
-			mysqli_close($link);
-			?>	
-			</tr>
-		</table>
+		
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+				<!-- Menu -->
+				<nav class="navbar navbar-green">
+					<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+							<span class=""></span>
+							<span class="icon-bar"></span>                       
+							</button>
+							<a class="navbar-brand" onclick="openNav()"><span  class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;<strong>AJ's Catering</strong></a>
+					</div>
+					
+					</div>
+				</nav>
 
-	</div>
-	</center>
+				
+			</div>
+        </div>
+        <center><h1>W-E-L-C-O-M-E TO AJ's CATERING</h1></center>
+
+    </div>
+    
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
 </body>
+
 </html>

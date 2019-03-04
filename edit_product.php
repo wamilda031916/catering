@@ -1,3 +1,7 @@
+<?php
+   include("connect.php");
+   session_start();
+   ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,38 +11,33 @@
 	<br>
 	<center>
 	<div>
-		<h3><b>Update Student</b></h3><br>
-	    <form action="update_student.php" method="POST">
+		<h3><b>Update Customer</b></h3><br>
+	    <form action="update_product.php" method="POST">
 
 		<?php
 
 		include "connect.php";
 
-		$id = $_GET['id'];
+		$id = $_GET['product_code'];
 
 		$sql = "SELECT * FROM product WHERE product_code = $id " ;
-		$res = mysqli_query($link, $sql);
+		$res = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_array($res);
 
-		$product_code = $row['product_code'];
 		$description = $row['description'];
 		$price = $row['price'];
 		$unit = $row['unit'];
 
 		        echo '<div>';
-		            echo '<h4>Product Code: <input id="product_code" type="text" name="product_code" value="'. $product_code .'" required></h4>';
-		        echo '</div>';
-		        echo '<br>';
-		        echo '<div>';
 		            echo '<h4>Description: <input id="description" type="text" name="description" value="'. $description .'" required></h4>';
 		        echo '</div>';
-		        echo '<br>';
-				echo '<div>';
+		        echo '</br>';
+		        echo '<div>';
 		            echo '<h4>Price: <input id="price" type="text" name="price" value="'. $price .'" required></h4>';
 		        echo '</div>';
 		        echo '<br>';
-				echo '<div>';
-		            echo '<h4>Unit: <input id="unit" type="text" name="unit" value="'. $unit .'" required></h4>';
+		        echo '<div>';
+		            echo '<h4>Unit: <input id="unit" type="text" name="unit" value="'. $unit  .'" required></h4>';
 		        echo '</div>';
 		        echo '<br>';
 				echo '<div>';

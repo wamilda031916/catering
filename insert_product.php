@@ -1,22 +1,22 @@
 <?php
-
 include "connect.php";
+session_start();
 
-$product_code  = $_POST['product_code'];
-$description   = $_POST['description'];
-$price  = $_POST['price'];
-$unit  = $_POST['unit'];
+$description = $_POST['description'];
+$price = $_POST['price'];
+$unit = $_POST['unit'];
+
+$sql = "INSERT INTO product (description, price, unit) VALUES ('$description', '$price', '$unit')";
+	
+$res = mysqli_query($conn, $sql);
+if($res == true){
+	echo "Product saved succesfully.";
+	header('location: product.php');
+}else{
+	echo "Error".$description,$price,$unit;
+} 
+
+mysqli_close($conn);
 
 
-$sql = "INSERT INTO product (product_code, description, price, unit)"
-     . "VALUES ('$product_code', '$description', '$price', '$unit')";
-/* SQL query execution */
-$res = mysqli_query($link, $sql);
-if($res) echo "Data saved successfully.";
-else echo mysqli_error($link);
-
-/* 
-close MySQL connection */
-mysqli_close($link);
-header('location: index.php');
 ?>

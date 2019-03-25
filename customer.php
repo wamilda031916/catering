@@ -1,104 +1,61 @@
 <?php
-   include("db.php");
-   session_start();
-   ?>
+ 
+require('db.php');
+include("auth.php");
 
+$status = "";
+if(isset($_POST['new']) && $_POST['new']==1)
+{
+$firstname =$_REQUEST['firstname'];
+$mi = $_REQUEST['mi'];
+$lastname =$_REQUEST['lastname'];
+$customer_street = $_REQUEST['customer_street'];
+$customer_barangay =$_REQUEST['customer_barangay'];
+$city = $_REQUEST['city'];
+$contact_num =$_REQUEST['contact_num'];
+$username = $_SESSION["username"];
+$ins_query="INSERT INTO `customer`(`firstname`, `mi`, `lastname`, `customer_street`, `customer_barangay`, `city`, `contact_num`, `username`) VALUES ('$firstname','$mi','$lastname','$customer_street','$customer_barangay','$city','$contact_num','$username')";
+mysqli_query($con,$ins_query) or die(mysql_error());
+header('loacation: view_customers.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Product Table</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-  	<script src="jquery/product/jquery.min.js"></script>
-  	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<style>
-    	body{
-          background-image: url("images/customer3.jpg");
-          background-size: 1366px 768px;
-      	}
-      	#box1{
-          margin-top: 5%;
-      	}
-      	#title1{
-          text-align: center;
-      	}
-	    #bt {
-	        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	        border-collapse: collapse;
-	        width: 100%;
-	    }
-
-	    #bt td, #bt th {
-	        border: 1px solid #ddd;
-	        padding: 8px;
-	    }
-
-	    #bt tr{background-color: white;}
-
-	    #bt tr:hover {background-color: #ddd;}
-
-	    #bt th {
-	        padding-top: 12px;
-	        padding-bottom: 12px;
-	        text-align: center;
-	        background-color: #38007c;
-	        color: white;
-	    }
- 	</style>
+<meta charset="utf-8">
+<title>Insert New Customer</title>
+<link href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/insert.css" />
+<style>
+	body{
+	background-image: url(dashboard.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 100%;
+	}
+</style>
 </head>
 <body>
+<div class="form">
+<p><a href="dashboard.php">Dashboard</a> | <a href="view_customers.php?username=<?php echo $_SESSION['username']; ?>">View Customers</a> | <a href="logout.php">Logout</a></p>
 
-<div class="container">
-	<div class="col-md-1 col-sm-1"></div>
-			
-	<div class="well well-lg col-md-10 col-sm-10" id="box1">
-		<div class="row">
-			<div class="col-md-1 col-sm-1">
-			  	<form action="create_product.php">
-					<button type="submit" class="btn btn-success">Add Product</button>
-				</form>
-				<form action="index.php">
-					<button type="submit" class="btn btn-success">Back</button>
-				</form>
-			</div>
-		</div>
+<div>
+<h1>Insert New Customer</h1>
+<form name="form" method="post" action="customer.php"> 
+<input type="hidden" name="new" value="1" />
+<p><input type="text" name="firstname" placeholder="Enter Firstname" required /></p>
+<p><input type="text" name="mi" placeholder="Enter Middle Initial" required /></p>
+<p><input type="text" name="lastname" placeholder="Enter Lastname" required /></p>
+<p><input type="text" name="customer_street" placeholder="Enter Customer Street" required /></p>
+<p><input type="text" name="customer_barangay" placeholder="Enter Customer Barangay" required /></p>
+<p><input type="text" name="city" placeholder="Enter City" required /></p>
+<p><input type="number" name="contact_num" placeholder="Enter Contact Number" required /></p>
+<p><input name="submit" type="submit" value="Submit" /></p>
+</form>
+<p style="color:#0ae4f1;"><?php echo $status; ?></p>
+<h1 style="color:#0ae4f1;"/h1>
 
-		<table id="bt">
-			<tr>
-				<th>Description</th>
-				<th>Price</th>
-				<th>Unit</th>
-				<th>Edit</th>
-				<th>Delete</th>
-			</tr>
-
-<?php
-
-include "db.php";
-$sql = "SELECT * FROM product";
-$res = mysqli_query($con, $sql);
-if(mysqli_num_rows($res) > 0)
-while($line = mysqli_fetch_array($res)) {
-	$id = $line['product_code'];
-	echo "<tr>";
-
-	echo "<td><center>" . $line['description'] . "</center></td>";
-	echo "<td><center>" . $line['price'] . "</center></td>";
-	echo "<td><center>" . $line['unit'] . "</center></td>";
-	echo '<td><a href="edit_product.php?product_code='.$line['product_code'].'" title="Update Contact"><center><span class="glyphicon glyphicon-pencil"></span></center></a></td>';
-	echo '<td><a href="delete_product.php?product_code='.$line['product_code'].'" title="Remove Contact"><center><span class="glyphicon glyphicon-remove"></span></center></a></td>';  
-	echo '<div class="input-group">';
-                echo '<input type="hidden" class="form-control" name="product_code" value="'. $id.'" >';
-        echo '</div>';
-	echo "<tr>";
-}
-mysqli_close($con);
-?>
-			</tr>
-		</table>
-	</div>
 </div>
-
+</div>
 </body>
 </html>

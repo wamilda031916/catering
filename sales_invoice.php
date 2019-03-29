@@ -1,43 +1,6 @@
 <?php
    include("connect.php");
    session_start();
-   ?>
-   <?php
-
-$servername = "localhost";
-  $dbUsername = "root";
-  $dbPassword = "";
-  $dbName = "catering";
- $conn = new PDO("mysql: host=localhost;dbname=catering","root","");
-function fill_unit_select_box($conn)
-{ 
- $output = '';
- $query = "SELECT * FROM customer ORDER BY customer_id ASC";
- $statement = $conn->prepare($query);
- $statement->execute();
- $res = $statement->fetchAll(PDO::FETCH_ASSOC);
- foreach($res as $row)
- {
-  $output .= '<option value="'.$row['customer_id'].'">'.$row['firstname'].' '.$row['lastname'].'</option>';
- }
- return $output;
- $statement->close();
-}
-
-function fill_unit_select_box1($conn)
-{ 
- $output = '';
- $query = "SELECT * FROM product ORDER BY product_code ASC";
- $statement = $conn->prepare($query);
- $statement->execute();
- $res = $statement->fetchAll(PDO::FETCH_ASSOC);
- foreach($res as $row)
- {
-  $output .= '<option value="'.$row['product_code'].'">'.$row['description'].'</option>';
- }
- return $output;
- $statement->close();
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,62 +30,58 @@ body{
     <div class="table-repsonsive">
      <span id="error"></span>
       <div class="col-sm-3">
-     <input type="date" name="date" class="form-control"/></br>
-      <input type="type" name="terms" class="form-control"/></br>
-   </div>
-     <table class="table table-bordered" id="item_table">
-      <thead>
-      <tr>
-        <th><center>Select Customer</center></th>
-        <th><center>Select Product</center></th>
-       <th><center>Enter Quantity</center></th>
-       <th><center>Unit</center></th>
-       <th><center>Unit Price</center></th>
-       <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
+     <label>Date:</label><input type="date" name="date" class="form-control"/></br>
+      <label>Terms:</label><input type="type" name="terms" class="form-control"/></br>
+       <td><label>Customer:</label>
                 <?php 
                   include "db.php";
                   $sql = "SELECT * FROM customer";
-                  $res = $conn->prepare($sql);
-                  $res->execute();
+                  $res = mysqli_query($conn, $sql);
                 ?>
                 <select name="customer" required class="form-control customer" >
-                  <option value=""></option>
-                <?php while ($line = $res->fetch()): ?>
+  
+                <?php while ($line = mysqli_fetch_array($res)){ ?>
                   <option value="<?php echo $line['customer_id']; ?>"><?php echo $line['firstname'].' '.$line['lastname']; ?></option>
-                 <?php endwhile; ?>
+                 <?php } ?>
                 </select>
               </td>
-
-             <td> 
+            </br>
+            <td> <label>Products:</label>
                 <?php 
                   $sql1 = "SELECT * FROM product";
-                  $res1 = $conn->prepare($sql1);
-                  $res1->execute();
+                  $res1 = mysqli_query($conn,$sql1);
 
                 ?>
-                <select name="product[]" required class="form-control product" >
+                <select id="products" class="form-control product" >
                   <option value=""></option>
-                <?php while ($line1 = $res1->fetch()):?>
-                  <option value="<?php echo htmlspecialchars($line1['product_code']) ?>"><?php echo htmlspecialchars($line1['description']); ?></option>
-                 <?php endwhile; ?>
+                <?php while ($line1 = mysqli_fetch_array($res1)){?>
+                  <option value="<?php echo $line1['product_code'] ?>"><?php echo $line1['description']; ?></option>
+                 <?php } ?>
                 </select>
               </td>
-              <td><input type="text" class="form-control" name="quantity[]"></td>
-              <td><input type="text" class="form-control" name="unit[]"></td>
-              <td><input type="text" class="form-control" name="price[]"></td>
-              
-      </tr>
-    </tbody>
-     </table>
-
-    <div align="center">
-      <input type="submit" name="submit" class="btn btn-info" value="Insert" />
-          <button class="btn btn-success" href="view_products.php">Back</button>
+            </br>
+   </div>
+   <div class="table-responsive">
+      <table id="invoice-item-table" class="table table-bordered table-sm">
+                  <tr>
+                    <th>Product Code</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Unit</th> 
+                    <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></center></th>
+                  </tr>
+                  <tr>
+                    <td><input type="text" name="products[]" id="barcode1" class="form-control form-control-sm input-sm barcode"/></td>
+                    <td><input type="number" min="1" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm input-sm quantity"/></td>
+                    <td><input type="number" step="0.01" min="0.00" name="price[]" id="buy_price1" data-srno="1" class="form-control form-control-sm input-sm buy_price"/></td>
+                    <td><input type="text" name="unit[]" id="unit1" data-srno="1" class="form-control form-control-sm  input-sm unit" pattern="[A-Za-z0-9]+" ></td>
+                  </tr>               
+                </table>
+              <td align="right">
+                <input type="submit" name="create_delivery" value="Insert" id="create_delivery" class="btn btn-info mr-5"/>
+                <a href="view_products.php"><button type="button" class="btn btn-success" >Back</button></a>
+        </div>
+          
      </div>
    </form>
   </div>
@@ -132,113 +91,51 @@ body{
 </html>
 
 <script>
-$(document).ready(function(){
- 
- $(document).on('click', '.add', function(){
-  var html = '';
-  html += '<tr>';
-  html += '<td><select name="customer" class="form-control customer"><option value=""></option><?php echo fill_unit_select_box($conn);?></select></td>';
-  html += '<td><select name="product[]" class="form-control product"><option value=""><?php echo fill_unit_select_box1($conn);?></option></select></td>';
-  html += '<td><input type="text" name="quantity[]" class="form-control quantity" /></td>';
-  html += '<td><input type="text" name="unit[]" class="form-control unit" /></td>';
-  html += '<td><input type="text" name="price[]" class="form-control unit_price" /></td>';
-  html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
-  $('#item_table').append(html);
- });
- 
- $(document).on('click', '.remove', function(){
-  $(this).closest('tr').remove();
- });
- 
- $('#insert_form').on('submit', function(event){
-  event.preventDefault();
-  var error = '';
-  $('.customer').each(function(){
-   var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Enter Item Name at "+count+" Row</p>";
-    return false;
-   }
-   count = count + 1;
-  });
-  
-  $('.product').each(function(){
-   var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Enter  Quantity at "+count+" Row</p>";
-    return false;
-   }
-   count = count + 1;
-  });
-  
-  $('.unit').each(function(){
-   var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Select unit at "+count+" Row</p>";
-    return true;
-   }
-   $('.quantity').each(function(){
-   var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Select unit at "+count+" Row</p>";
-    return true;
-   }
-    $('.unit_price').each(function(){
-    var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Select unit_price at "+count+" Row</p>";
-    return false;
-   }
-   count = count >1;
-  });
-  $('.date').each(function(){
-    var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Select date at "+count+" Row</p>";
-    return false;
-   }
-   count = count >1;
-  });
-  $('.terms').each(function(){
-    var count = 1;
-   if($(this).val() == '')
-   {
-    error += "<p>Select terms at "+count+" Row</p>";
-    return false;
-   }
-   count = count >1;
-  });
-    alert(form_data);
-  var form_data = $(this).serialize();
-  if(error == '')
+        $(document).ready(function(){
 
-  {
-   $.ajax({
-    url:"insert_salesinvoice.php",
-    method:"POST",
-    data:form_data,
-    success:function(data)
-    {
-     if(data == 'ok')
-     {
-      $('#item_table').find("tr:gt(0)").remove();
-      $('#error').html('<div class="alert alert-success">Item Details Saved</div>');
-     }
-    }
-   });
+  var final_total_amount = $('#final_total_amount').text();
+  var count = 1;
+  $(document).on('change','#products', function(){
+    load(count);
+  });
+  $(document).on('click','.add', function(){
+    count += 1;
+    $('#quantity').val(count);
+
+    var html_code = ''; 
+    html_code += '<tr id="row_id_'+count+'">';
+    html_code += '<td><input type="text" name="products[]" id="barcode'+count+'" class="form-control form-control-sm input-sm barcode" /></td>';
+    html_code += '<td><input type="number" name="quantity[]" min="1" id="quantity'+count+'" data-srno="'+count+'" placeholder="Qty"  class="form-control form-control-sm nput-sm quantity" /></td>';
+    html_code += '<td><input type="number" name="price[]" min="0.00" step="0.00" placeholder="Price" id="buy_price'+count+'" data-srno="'+count+'" class="form-control form-control-sm input-sm buy_price"></td>';
+    html_code += '<td><input type="text" name="unit[]" pattern="[2-Za-z]+" id="unit'+count+'" placeholder="Unit" data-srno="'+count+'" class="form-control form-control-sm input-sm unit"></td>';
+    html_code += '<td><center><button type="button" name="remove_row" id="'+count+'" class="btn btn-sm btn-danger btn-xs remove_row">Delete</button></td></center></tr>';
+    $("#invoice-item-table").append(html_code);
+    $(document).on('change','#products', function(){
+    load(count);
+  });
+      
+  });
+  function load($count){
+        var products =  $('#products').val();
+    $.ajax({
+      url : "loadproducts.php",
+      method: "POST",
+      dataType: "json",
+      data: {products:products},
+      success : function(data){
+        for(x in data){
+            $('#barcode'+count).val(data.product_code);
+            $('#buy_price'+count).val(data.price);
+            $('#unit'+count).val(data.unit);
+          }
+      }
+    });
   }
-  else
-  {
-   $('#error').html('<div class="alert alert-danger">'+error+'</div>');
-  }
- });
- 
-});
-});
-</script>
+  $(document).on('click','.remove_row',function(){
+    var row_id = $(this).attr("id");
+        $('#row_id_'+row_id).remove();
+    count -= 1;
+  });
+
+
+});</script>

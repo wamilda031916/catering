@@ -6,12 +6,10 @@
 <html>
  <head>
   <title>Sales Invoice</title>
-<!--   <link rel="stylesheet" href="css/bootstrap2.min.css" />
+  <link rel="stylesheet" href="css/bootstrap2.min.css" />
   <script src="jquery/jquery2.min.js"></script>
-  <script src="js/bootstrap3.min.js"></script> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/bootstrap3.min.js"></script>
+ 
  </head>
  <style>
 body{
@@ -66,19 +64,19 @@ body{
                   <tr>
                     <th>Product Code</th>
                     <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Unit</th> 
+                    <th>Unit</th>
+                    <th>Unit Price</th> 
                     <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></center></th>
                   </tr>
                   <tr>
-                    <td><input type="text" name="products[]" id="barcode1" class="form-control form-control-sm input-sm barcode"/></td>
+                    <td><input type="text" name="products[]" id="code1" class="form-control form-control-sm input-sm code"/></td>
                     <td><input type="number" min="1" name="quantity[]" id="quantity1" data-srno="1" class="form-control form-control-sm input-sm quantity"/></td>
-                    <td><input type="number" step="0.01" min="0.00" name="price[]" id="buy_price1" data-srno="1" class="form-control form-control-sm input-sm buy_price"/></td>
-                    <td><input type="text" name="unit[]" id="unit1" data-srno="1" class="form-control form-control-sm  input-sm unit" pattern="[A-Za-z0-9]+" ></td>
+                    <td><input type="text" name="unit[]" id="unit1" data-srno="1" class="form-control form-control-sm  input-sm unit"  ></td>
+                    <td><input type="number" step="0.01" min="0.00" name="price[]" id="price1" data-srno="1" class="form-control form-control-sm input-sm price"/></td>
                   </tr>               
                 </table>
               <td align="right">
-                <input type="submit" name="create_delivery" value="Insert" id="create_delivery" class="btn btn-info mr-5"/>
+                <input type="submit" name="delivery" value="Insert" id="delivery" class="btn btn-info mr-5"/>
                 <a href="view_products.php"><button type="button" class="btn btn-success" >Back</button></a>
         </div>
           
@@ -104,10 +102,10 @@ body{
 
     var html_code = ''; 
     html_code += '<tr id="row_id_'+count+'">';
-    html_code += '<td><input type="text" name="products[]" id="barcode'+count+'" class="form-control form-control-sm input-sm barcode" /></td>';
+    html_code += '<td><input type="text" name="products[]" id="code'+count+'" class="form-control form-control-sm input-sm code" /></td>';
     html_code += '<td><input type="number" name="quantity[]" min="1" id="quantity'+count+'" data-srno="'+count+'" placeholder="Qty"  class="form-control form-control-sm nput-sm quantity" /></td>';
-    html_code += '<td><input type="number" name="price[]" min="0.00" step="0.00" placeholder="Price" id="buy_price'+count+'" data-srno="'+count+'" class="form-control form-control-sm input-sm buy_price"></td>';
-    html_code += '<td><input type="text" name="unit[]" pattern="[2-Za-z]+" id="unit'+count+'" placeholder="Unit" data-srno="'+count+'" class="form-control form-control-sm input-sm unit"></td>';
+    html_code += '<td><input type="text" name="unit[]" id="unit'+count+'" placeholder="Unit" data-srno="'+count+'" class="form-control form-control-sm input-sm unit"></td>';
+    html_code += '<td><input type="number" name="price[]" min="0.00" step="0.00" placeholder="Price" id="price'+count+'" data-srno="'+count+'" class="form-control form-control-sm input-sm price"></td>';
     html_code += '<td><center><button type="button" name="remove_row" id="'+count+'" class="btn btn-sm btn-danger btn-xs remove_row">Delete</button></td></center></tr>';
     $("#invoice-item-table").append(html_code);
     $(document).on('change','#products', function(){
@@ -124,8 +122,8 @@ body{
       data: {products:products},
       success : function(data){
         for(x in data){
-            $('#barcode'+count).val(data.product_code);
-            $('#buy_price'+count).val(data.price);
+            $('#code'+count).val(data.product_code);
+            $('#price'+count).val(data.price);
             $('#unit'+count).val(data.unit);
           }
       }

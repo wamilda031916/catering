@@ -116,7 +116,7 @@ body{
   function load($count){
         var products =  $('#products').val();
     $.ajax({
-      url : "loadproducts.php",
+      url : "loadorders.php",
       method: "POST",
       dataType: "json",
       data: {products:products},
